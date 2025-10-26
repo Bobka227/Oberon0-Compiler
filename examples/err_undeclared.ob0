@@ -1,0 +1,5 @@
+module err_undeclared;
+begin
+  a := 1
+end err_undeclared.
+

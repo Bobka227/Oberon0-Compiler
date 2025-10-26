@@ -1,0 +1,12 @@
+module err_io;
+var a: integer; s: string;
+begin
+  write();                (* write expects 1 argument *)
+  write(a, a);            (* write expects 1 argument *)
+  writeln(a, a);          (* writeln expects 0 or 1 argument *)
+  read(a, a);             (* read expects 1 argument *)
+  read(1);                (* read arg must be lvalue *)
+  read(s + s);            (* тоже не lvalue *)
+  read(s);                (* ok тип; просто тут ошибок выше достаточно *)
+end err_io.
+

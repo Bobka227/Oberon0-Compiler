@@ -1,0 +1,21 @@
+module M;
+var a: integer; s: string;
+
+procedure P(x: integer);
+begin
+  write(x);
+  writeln;
+end P;
+
+function F(y: integer): integer;
+begin
+  return y + 1;
+end F;
+
+begin
+  a := 42;
+  P(10);
+  s := "hi";
+  writeln(s);
+  writeln(F(5));
+end M.

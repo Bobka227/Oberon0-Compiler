@@ -1,0 +1,7 @@
+module err_index_type;
+var m: array[2] of integer;
+begin
+  m["x"] := 1
+end err_index_type.
+(* ОЖИДАЕМ: array index must be integer, got string *)
+

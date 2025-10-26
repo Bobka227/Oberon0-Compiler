@@ -1,0 +1,6 @@
+module err_index_not_array;
+var a: integer;
+begin
+  a[0] := 1
+end err_index_not_array.
+

@@ -1,0 +1,7 @@
+module err_too_many_indices;
+var m: array[2] of integer;
+begin
+  m[0,1] := 5
+end err_too_many_indices.
+(* ОЖИДАЕМ: too many indices (has 1 dims, used 2) *)
+

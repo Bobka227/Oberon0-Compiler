@@ -1,0 +1,24 @@
+module ok_recursion;
+
+function Fact(n: integer): integer;
+begin
+  if n = 0 then
+    return 1
+  else
+    return n * Fact(n - 1)
+  end
+end Fact;
+
+procedure A(k: integer);
+  procedure B(m: integer);
+  begin
+    if m > 0 then A(m - 1) end
+  end B;
+begin
+  if k > 0 then B(k) end
+end A;
+
+begin
+  writeln(Fact(5));
+  A(3)
+end ok_recursion.

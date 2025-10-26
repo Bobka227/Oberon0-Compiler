@@ -1,0 +1,14 @@
+module t_params1d;
+var a: array[5] of integer;
+
+procedure Bump(v: array[5] of integer; idx: integer);
+begin
+  v[idx] := v[idx] + 1
+end Bump;
+
+begin
+  a[2] := 41;
+  Bump(a, 2);
+  writeln(a[2])
+end t_params1d.
+

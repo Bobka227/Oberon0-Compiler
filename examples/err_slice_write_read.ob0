@@ -1,0 +1,7 @@
+module err_slice_write_read;
+var a: array[2,3] of integer;
+begin
+  a[1] := 5;         
+  read(a[1])                
+end err_slice_write_read.
+

@@ -1,0 +1,8 @@
+module err_for_bounds;
+var j: integer; r: real;
+begin
+  for j := r to 3 do writeln end;
+  for j := 0 to r do writeln end
+end err_for_bounds.
+(* ОЖИДАЕМ: for bounds must be integer, got real and integer / integer and real *)
+

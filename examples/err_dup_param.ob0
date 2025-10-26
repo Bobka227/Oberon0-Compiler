@@ -1,0 +1,6 @@
+module err_dup_param;
+
+procedure P(x, y: integer; x: integer);
+begin end P;
+
+begin end err_dup_param.

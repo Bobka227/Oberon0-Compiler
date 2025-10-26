@@ -1,0 +1,12 @@
+module ok_minimal;
+var a, b: integer; x: real; s: string; flag: boolean;
+begin
+  a := 10;
+  b := a + 32 * 2 - 1;
+  x := 3.14;
+  flag := TRUE and (a = 10);
+  writeln;              
+  writeln("hello");
+  writeln(a);
+  read(b);
+end ok_minimal.

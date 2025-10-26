@@ -1,0 +1,14 @@
+module err_return;
+
+procedure P();
+begin
+  return 1;
+end P;
+
+function F(): integer;
+begin
+  return
+end F;
+
+begin end err_return.
+

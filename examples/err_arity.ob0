@@ -1,0 +1,10 @@
+module err_arity;
+
+procedure P(x: integer; y: integer);
+begin end P;
+
+begin
+  P(1);          (* expected 2, got 1 *)
+  P(1,2,3)       (* expected 2, got 3 *)
+end err_arity.
+

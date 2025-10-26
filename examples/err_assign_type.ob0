@@ -1,0 +1,7 @@
+module err_assign_type;
+var a: integer; s: string;
+begin
+  a := "str";
+  s := 123
+end err_assign_type.
+

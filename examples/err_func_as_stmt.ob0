@@ -1,0 +1,10 @@
+module err_func_as_stmt;
+
+function F(x: integer): integer;
+begin return x end F;
+
+begin
+  F(5)                 (* нельзя игнорировать результат *)
+end err_func_as_stmt.
+(* ОЖИДАЕМ: cannot use function 'F' as a statement (result ignored) *)
+

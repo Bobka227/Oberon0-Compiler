@@ -1,0 +1,9 @@
+module err_arg_types;
+
+procedure P(x: integer; s: string; b: boolean);
+begin end P;
+
+begin
+  P(TRUE, 123, "no")
+end err_arg_types.
+

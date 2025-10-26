@@ -1,0 +1,4 @@
+module err_redef_var;
+var a: integer;
+var a: integer;
+begin end err_redef_var.

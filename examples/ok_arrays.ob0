@@ -1,0 +1,13 @@
+module ok_arrays;
+var m: array[2,3] of integer;
+    r: array[2] of array[3] of real;
+begin
+  m[0,1] := 42;
+  writeln(m[0,1]);
+
+  r[1][2] := 3.5;   
+  writeln(r[1][2]);
+
+  writeln(r[1][2])
+end ok_arrays.
+

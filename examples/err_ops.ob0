@@ -1,0 +1,8 @@
+module err_ops;
+var b: boolean; s: string;
+begin
+  b := -TRUE;           
+  s := "a" + "b";               
+  b := 1 and 2              
+end err_ops.
+

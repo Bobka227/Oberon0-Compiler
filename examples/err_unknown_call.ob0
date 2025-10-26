@@ -1,0 +1,6 @@
+module err_unknown_call;
+begin
+  Foo(1)
+end err_unknown_call.
+
+

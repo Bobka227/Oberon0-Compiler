@@ -1,0 +1,7 @@
+module err_compare;
+var s: string; i: integer;
+begin
+  if s = i then writeln end
+end err_compare.
+(* ОЖИДАЕМ: invalid binary '=' for string and integer *)
+

@@ -1,0 +1,14 @@
+module t_params2d;
+var m: array[2,3] of integer;
+
+procedure SumRow(a: array[2,3] of integer; i: integer);
+var s: integer;
+begin
+  s := a[i,0] + a[i,1] + a[i,2];
+  writeln(s)
+end SumRow;
+
+begin
+  m[1,0] := 1; m[1,1] := 2; m[1,2] := 3;
+  SumRow(m, 1)
+end t_params2d.

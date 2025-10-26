@@ -1,0 +1,31 @@
+module ok_funcs;
+var g: integer;
+
+procedure P(x: integer);
+  var y: integer;
+  procedure Q(z: integer);
+  begin
+    writeln(z)
+  end Q;
+begin
+  y := x + 1;
+  Q(y)
+end P;
+
+function F(a: integer): integer;
+  var t: integer;
+  function G(b: integer): integer;
+  begin
+    return b + 1
+  end G;
+begin
+  t := a * 2;
+  return G(t)
+end F;
+
+begin
+  P(5);
+  g := F(10);
+  writeln(g)
+end ok_funcs.
+

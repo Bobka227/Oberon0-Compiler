@@ -1,0 +1,7 @@
+module err_break_continue;
+begin
+  break;
+  continue
+end err_break_continue.
+(* ОЖИДАЕМ: 'break used outside of loop', 'continue used outside of loop' *)
+
