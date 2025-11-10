@@ -4,9 +4,6 @@ import app.ast.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Печатает AST в виде «похожем на код»
- */
 public class AstPrinter {
 
     public String print(Program p) {
@@ -14,7 +11,6 @@ public class AstPrinter {
         sb.append("module ").append(p.name()).append(";\n");
 
         if (!p.decls().isEmpty()) {
-            // var-секция (глобалы)
             var vars = p.decls().stream()
                     .filter(d -> d instanceof VarDecl)
                     .map(d -> (VarDecl) d)
@@ -27,7 +23,6 @@ public class AstPrinter {
                             .append(typeRef(v.type())).append(";\n");
                 }
             }
-            // процедуры/функции верхнего уровня
             for (Decl d : p.decls()) {
                 if (d instanceof ProcDecl pr) {
                     sb.append(printProc(pr, 0)).append("\n");
@@ -45,7 +40,6 @@ public class AstPrinter {
         return sb.toString();
     }
 
-    // ================= helpers =================
     private static String indent(int n) {
         return "  ".repeat(n);
     }
@@ -70,7 +64,6 @@ public class AstPrinter {
                 .collect(Collectors.joining(", "));
     }
 
-    // ================= procedures / functions =================
     private String printProc(ProcDecl pr, int ind) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent(ind))
@@ -90,7 +83,6 @@ public class AstPrinter {
             }
         }
 
-        // nested procs/funcs
         for (Decl d : pr.nested()) {
             if (d instanceof ProcDecl p) {
                 sb.append(printProc(p, ind)).append("\n");
@@ -99,7 +91,6 @@ public class AstPrinter {
             }
         }
 
-        // body
         sb.append(indent(ind)).append("begin\n");
         for (Stmt s : pr.body()) {
             sb.append(indent(ind + 1)).append(stmt(s, ind + 1)).append("\n");
@@ -115,7 +106,6 @@ public class AstPrinter {
                 .append("(").append(params(fn.params())).append(")")
                 .append(" : ").append(type(fn.retType())).append(";\n");
 
-        // locals
         var vars = fn.locals().stream()
                 .filter(d -> d instanceof VarDecl)
                 .map(d -> (VarDecl) d)
@@ -129,7 +119,6 @@ public class AstPrinter {
             }
         }
 
-        // nested procs/funcs
         for (Decl d : fn.nested()) {
             if (d instanceof ProcDecl p) {
                 sb.append(printProc(p, ind)).append("\n");
@@ -138,7 +127,6 @@ public class AstPrinter {
             }
         }
 
-        // body
         sb.append(indent(ind)).append("begin\n");
         for (Stmt s : fn.body()) {
             sb.append(indent(ind + 1)).append(stmt(s, ind + 1)).append("\n");
@@ -147,7 +135,6 @@ public class AstPrinter {
         return sb.toString();
     }
 
-    // ================= statements =================
     private String stmt(Stmt s, int ind) {
         if (s instanceof Assign a) {
             return a.name() + " := " + expr(a.value()) + ";";
@@ -211,7 +198,6 @@ public class AstPrinter {
 
     private String oneLineOrBlock(Stmt s, int ind) {
         String body = stmt(s, ind + 1);
-        // если внутри есть перевод строки — печатаем как блок
         if (body.contains("\n")) {
             return "begin\n" + indent(ind + 1) + body + "\n" + indent(ind) + "end;";
         }
@@ -224,7 +210,6 @@ public class AstPrinter {
         }
         if (body.size() == 1) {
             String only = stmt(body.get(0), ind + 1);
-            // если внутри нет перевода строки — считаем однострочной
             if (!only.contains("\n")) {
                 return only;
             }
@@ -237,7 +222,6 @@ public class AstPrinter {
         return sb.toString();
     }
 
-    // ================= expressions =================
     private String expr(Expr e) {
         if (e instanceof IntLit i) {
             return Integer.toString(i.value());
@@ -308,7 +292,6 @@ public class AstPrinter {
         return e.toString();
     }
 
-    // ================= types =================
     private String typeRef(TypeRef t) {
         if (t instanceof Type base) {
             return type(base);

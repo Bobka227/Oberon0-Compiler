@@ -7,11 +7,12 @@ import app.parser.Oberon0Parser;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*; // NEW
+import java.util.*;
 
 import app.frontend.AstBuilder;
 import app.frontend.AstPrinter;
+import app.frontend.AstAsciiPrinter;
+
 import app.ast.Program;
 
 import app.sem.SourceMap;
@@ -22,17 +23,45 @@ public class Oberon0Compiler {
 
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
-            System.err.println("Usage: mvn -q exec:java \"-Dexec.args=examples/hello.ob0 [--emit-c out.c] [--no-run]\"");
+            System.err.println("Usage: mvn -q exec:java \"-Dexec.args=examples/hello.ob0 [--print-ast] [--print-ast-tree] [--frontend-only] [--emit-c out.c] [--no-run]\"");
             System.exit(1);
         }
 
         String file = args[0];
         if (!file.toLowerCase().endsWith(".ob0")) {
             System.err.println("Error: expected a .ob0 source file, got: " + file);
-            System.err.println("Usage: mvn -q exec:java \"-Dexec.args=path/to/file.ob0 [--emit-c out.c] [--no-run]\"");
+            System.err.println("Usage: mvn -q exec:java \"-Dexec.args=examples/hello.ob0 [--print-ast] [--print-ast-tree] [--frontend-only] [--emit-c out.c] [--no-run]\"");
             System.exit(1);
         }
         String src = Files.readString(Path.of(file));
+
+        boolean printAst = false;
+        boolean frontendOnly = false;
+        boolean emitC = false;
+        boolean run = true;
+        String outC = null;
+        boolean printAstTree = false;
+
+        for (int i = 1; i < args.length; i++) {
+            switch (args[i]) {
+                case "--print-ast" ->
+                    printAst = true;
+                case "--print-ast-tree" ->
+                    printAstTree = true;
+                case "--frontend-only" ->
+                    frontendOnly = true;
+                case "--emit-c" -> {
+                    if (i + 1 < args.length) {
+                        emitC = true;
+                        outC = args[++i];
+                    }
+                }
+                case "--no-run" ->
+                    run = false;
+                default -> {
+                    /* ignore unknown flags */ }
+            }
+        }
 
         // --- lex/parse ---
         Oberon0Lexer lexer = new Oberon0Lexer(CharStreams.fromString(src));
@@ -66,6 +95,16 @@ public class Oberon0Compiler {
 
         System.out.println("Parse OK");
 
+        if (printAstTree) {
+            System.out.println(new AstAsciiPrinter().print(ast));
+            return;
+        }
+
+        if (printAst) {
+            System.out.println(new AstPrinter().print(ast));
+            return;
+        }
+
         ErrorReporter er = new ErrorReporter();
         TypeChecker tc = new TypeChecker(er, smap);
         tc.check(ast);
@@ -76,18 +115,9 @@ public class Oberon0Compiler {
             System.exit(4);
         }
 
-     
-        boolean emitC = false;
-        boolean run = true;
-        String outC = null;
-
-        for (int i = 1; i < args.length; i++) {
-            if ("--emit-c".equals(args[i]) && i + 1 < args.length) {
-                emitC = true;
-                outC = args[++i];
-            } else if ("--no-run".equals(args[i])) {
-                run = false;
-            }
+        if (frontendOnly) {
+            System.out.println(new AstPrinter().print(ast));
+            return;
         }
 
         String cCode = new app.backend.CCodegen(ast.name()).generate(ast);
@@ -99,7 +129,6 @@ public class Oberon0Compiler {
             Files.writeString(Path.of(outC), cCode);
             System.out.println("C code generated -> " + outC);
             if (!run) {
-            
                 return;
             }
         }
@@ -151,7 +180,6 @@ public class Oberon0Compiler {
             } catch (Exception ignore) {
             }
         }
-
     }
 
     static class ThrowingErrorListener extends BaseErrorListener {

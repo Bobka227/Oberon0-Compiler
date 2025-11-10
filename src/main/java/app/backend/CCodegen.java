@@ -174,14 +174,14 @@ public final class CCodegen {
 
     private void emitNestedProc(ProcDecl pr) {
         nestedVisible.push(collectNestedNames(pr.nested()));
-        pushScope(); // NEW
+        pushScope(); 
         for (Param par : pr.params()) {
-            declareVar(par.name(), par.type()); // NEW
+            declareVar(par.name(), par.type()); 
         }
         emit("  void ").append(mangle(pr.name())).append("(").append(paramsProto(pr.params())).append("){\n");
         for (Decl d : pr.locals()) {
             if (d instanceof VarDecl v) {
-                declareVar(v.name(), v.type());                               // NEW
+                declareVar(v.name(), v.type());
                 emitVarDecl("    ", v.name(), v.type());
             }
         }
@@ -189,7 +189,7 @@ public final class CCodegen {
             emit("    ").append(stmt(s)).append("\n");
         }
         emit("  }\n");
-        popScope(); // NEW
+        popScope();
         nestedVisible.pop();
     }
 
@@ -589,7 +589,6 @@ public final class CCodegen {
         return topNames.getOrDefault(name, name);
     }
 
-    // === helpers ===
     private static final class Flat {
 
         final Type base;
