@@ -128,7 +128,7 @@ mvn -q exec:java "-Dexec.args=examples/ok_minimal.ob0 --frontend-only"
 
 
 
-## 🪟 Instalace backendu na Windows
+## Instalace backendu na Windows
 
 Pro plnou funkčnost kompilátoru (generování C → překlad → spuštění) je potřeba nainstalovat GCC/Clang. Na Windows doporučujeme MSYS2 s UCRT64 prostředím.
 
